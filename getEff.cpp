@@ -78,7 +78,7 @@ void getEff(){
   //fcha->Add("OniaTrees/OniaTree_PASingleMu_HIRun2016-PromptReco-v1_Run_285090-285374.root");//PromptReco_Single_All(5TeV)
   //fcha->Add("OniaTrees/OniaTree_PADoubleMu_HIRun2016-PromptReco-v1_Run_285090-285374.root");//PromptReco_Double_All(5TeV)
   //fcha->Add("OniaTrees/OniaTree_PADoubleMu_HIRun2016-PromptReco-v1_Run_285480-285517.root");//PromptReco_Double_All(8TeV)
-  //fcha->Add("root://eoscms.cern.ch//eos/cms/store/group/phys_heavyions/dileptons/Data2015/pp502TeV/TTrees/PromptReco/OniaTree_DoubleMu_PromptReco_262081_262273.root");//PromptReco_pp_DoubleMu_5TeV
+  //fcha->Add("/eos/cms/store/group/phys_heavyions/dileptons/Data2015/pp502TeV/TTrees/PromptReco/OniaTree_DoubleMu_PromptReco_262081_262273.root");//PromptReco_pp_DoubleMu_5TeV
   fcha->Add("/afs/cern.ch/user/s/stuli/stuliWork/public/pp5TeV_Data/OniaTree_DoubleMu_Run2015E-PromptReco-v1_Run_262157_262328.root");  
 
 
