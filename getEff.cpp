@@ -79,27 +79,29 @@ void getEff(){
   //fcha->Add("OniaTrees/OniaTree_PADoubleMu_HIRun2016-PromptReco-v1_Run_285090-285374.root");//PromptReco_Double_All(5TeV)
   //fcha->Add("OniaTrees/OniaTree_PADoubleMu_HIRun2016-PromptReco-v1_Run_285480-285517.root");//PromptReco_Double_All(8TeV)
   //fcha->Add("/eos/cms/store/group/phys_heavyions/dileptons/Data2015/pp502TeV/TTrees/PromptReco/OniaTree_DoubleMu_PromptReco_262081_262273.root");//PromptReco_pp_DoubleMu_5TeV
-  fcha->Add("/afs/cern.ch/user/s/stuli/stuliWork/public/pp5TeV_Data/OniaTree_DoubleMu_Run2015E-PromptReco-v1_Run_262157_262328.root");  
-
+  // For 2015 pp 5TeV data
+  //fcha->Add("/afs/cern.ch/user/s/stuli/stuliWork/public/pp5TeV_Data/OniaTree_DoubleMu_Run2015E-PromptReco-v1_Run_262157_262328.root");  
+  // For 2017 pp ref run, Prompt JPsi MC sample (test)
+  fcha->Add("/afs/cern.ch/user/t/twang/public/ForAndre/OniaForest.root");
 
   double ptmin = 0;
-  double ptmax = 30;
+  double ptmax = 50;//30
   double etamin = -2.4;
   double etamax = 2.4;
   double massmin = 2;
   double massmax = 5;
   double himassmin = 70;
   double himassmax = 110;
-  string date="100417";
-  string dataset="Data";
-  //string dataset="MC";
+  string date="101817";
+  //string dataset="Data";
+  string dataset="MC";
   //string vername="test";
   //string vername="ExpressStream_8TeV_Double_285480_285549_MB";
   //string vername="DoubleMu_PromptReco_262081_262273";
-  string vername="DoubleMu_PromptReco-v1_262157_262328";
-
+  //string vername="DoubleMu_PromptReco-v1_262157_262328";
+  string vername="PromptJPsiMC";
   //define Trigger
-  const int Ntrig = 18;
+  const int Ntrig = 27; // 18 for 2015
   string trigname[Ntrig+1]={
 /*    "HLT_PAL1DoubleMuOpen_v1",
     "HLT_PAL1DoubleMuOpen_OS_v1",
@@ -122,7 +124,7 @@ void getEff(){
     "HLT_PAL3Mu15_v1",
     "HLT_PAL1MinimumBiasHF_AND_SinglePixelTrack_v1"
 // */
-/*    For 2017
+/*    // For 2017 (Old)
     //Double
     "HLT_HIL1DoubleMu0_v1",
     "HLT_HIL1DoubleMu10_v1",
@@ -141,7 +143,7 @@ void getEff(){
     "HLT_HIL2Mu20_v1",
     "HLT_HIL3Mu20_v1"
 // */
-//    For 2015
+/*//    For 2015 19 total, use ntrig 18
     "HLT_HIL1DoubleMu0_v1",
     "HLT_HIL1DoubleMu0_2HF_v1",
     "HLT_HIL1DoubleMu0_2HF0_v1",
@@ -161,6 +163,38 @@ void getEff(){
     "HLT_HIL3DoubleMu0_Cent30_OS_m7to14_v1",
     "HLT_HIL3DoubleMu0_OS_m2p5to4p5_v1",
     "HLT_HIL3DoubleMu0_OS_m7to14_v1"
+// */
+    // For 2017 (Latest) 28 total
+    //Double
+    "HLT_L1DoubleMuOpen_v1",//0
+    "HLT_L1DoubleMuOpen_OS_v1",//1
+    "HLT_L1DoubleMuOpen_SS_v1",//2
+    "HLT_L1DoubleMu0_v1",//3
+    "HLT_L1DoubleMu0_HighQ_v1",//4
+    "HLT_L1DoubleMu10_v1",//5
+    "HLT_L2DoubleMu0_v1",//6
+    "HLT_L2DoubleMu10_v1",//7
+    "HLT_L3DoubleMu0_v1",//8
+    "HLT_L3DoubleMu10_v1",//9
+    //Single
+    "HLT_L1Mu3_v1",//10
+    "HLT_L1Mu5_v1",//11
+    "HLT_L1Mu7_v1",//12
+    "HLT_L1Mu12_v1",//13
+    "HLT_L1Mu16_v1",//14
+    "HLT_L2Mu3_v1",//15
+    "HLT_L2Mu5_v1",//16
+    "HLT_L2Mu7_v1",//17
+    "HLT_L2Mu12_v1",//18
+    "HLT_L2Mu15_v1",//19
+    "HLT_L2Mu20_v1",//20
+    "HLT_L3Mu3_v1",//21
+    "HLT_L3Mu5_v1",//22
+    "HLT_L3Mu7_v1",//23
+    "HLT_L3Mu12_v1",//24
+    "HLT_L3Mu15_v1",//25
+    "HLT_L3Mu20_v1",//26
+    "HLT_HIL3Mu3_Track1_Jpsi_v1"//27
   };
 
   //Set Branch
@@ -314,7 +348,7 @@ void getEff(){
     deno_phi[i] = new TH1D(Form("deno_phi%d",i),";#phi;Events",Nphiarr-1,phiarr);
   };
 
-  for(int i=0; i<nevent; i++){
+  for(int i=0; i<nevent; i++){ // i<nevent
     fcha->GetEvent(i);
     if(i%500000==0){cout<<">>>>> EVENT "<<i<<" / "<<fcha->GetEntries()<<" ("<<(int)(100.*i/fcha->GetEntries())<<"%)"<<endl;}
     //if((HLTriggers&((ULong64_t)pow(2, 19)))!=((ULong64_t)pow(2, 19))) continue;
@@ -343,7 +377,8 @@ void getEff(){
               Reco_QQ_sign[k]==0&&//opposite sign  
               recoQQ4mom->M()>massmin && recoQQ4mom->M()<massmax&&//mass window
               AcceptanceCut(recoQQpl4mom)&&AcceptanceCut(recoQQmi4mom)&&//Acceptance cut
-              k!=9&&k!=10&&k!=11//except DoubleMu10 trig
+              //k!=9&&k!=10&&k!=11//except DoubleMu10 trig
+              k!=5&&k!=7&&k!=9//except DoubleMu10 trig //Santona
             )
           {
             if(
@@ -354,18 +389,38 @@ void getEff(){
             {
               // Inside probe (mumi)
               deno_p[k]->Fill(recoQQmi4mom->Pt());
-              if(k!=12&&k!=13&&k!=14&&k!=15&&k!=16&&k!=17&&k!=18)
+              //if(k!=12&&k!=13&&k!=14&&k!=15&&k!=16&&k!=17&&k!=18)
+              if(k!=10&&k!=11&&k!=12&&k!=13&&k!=14&&k!=15&&k!=16&&k!=17&&k!=18&&k!=19&&k!=20&&k!=21&&k!=22&&k!=23&&k!=24&&k!=25&&k!=26) //Santona
               {
                 deno_e[k]->Fill(recoQQmi4mom->Eta());//denominator for DoubleMu trigs
               }
               //SingleMu trig
-              if(k==12&&recoQQmi4mom->Pt()>12){deno_e[k]->Fill(recoQQmi4mom->Eta());}//denominator for SingleMu trigs
+/*              if(k==12&&recoQQmi4mom->Pt()>12){deno_e[k]->Fill(recoQQmi4mom->Eta());}//denominator for SingleMu trigs
               if(k==13&&recoQQmi4mom->Pt()>15){deno_e[k]->Fill(recoQQmi4mom->Eta());}
               if(k==14&&recoQQmi4mom->Pt()>3){deno_e[k]->Fill(recoQQmi4mom->Eta());}
               if(k==15&&recoQQmi4mom->Pt()>5){deno_e[k]->Fill(recoQQmi4mom->Eta());}
               if(k==16&&recoQQmi4mom->Pt()>7){deno_e[k]->Fill(recoQQmi4mom->Eta());}
               if(k==17&&recoQQmi4mom->Pt()>12){deno_e[k]->Fill(recoQQmi4mom->Eta());}
               if(k==18&&recoQQmi4mom->Pt()>15){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+// */
+	      //Santona
+              if(k==10&&recoQQmi4mom->Pt()>3){deno_e[k]->Fill(recoQQmi4mom->Eta());}//denominator for SingleMu trigs
+              if(k==11&&recoQQmi4mom->Pt()>5){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==12&&recoQQmi4mom->Pt()>7){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==13&&recoQQmi4mom->Pt()>12){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==14&&recoQQmi4mom->Pt()>16){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==15&&recoQQmi4mom->Pt()>3){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==16&&recoQQmi4mom->Pt()>5){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==17&&recoQQmi4mom->Pt()>7){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==18&&recoQQmi4mom->Pt()>12){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==19&&recoQQmi4mom->Pt()>15){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==20&&recoQQmi4mom->Pt()>20){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==21&&recoQQmi4mom->Pt()>3){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==22&&recoQQmi4mom->Pt()>5){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==23&&recoQQmi4mom->Pt()>7){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==24&&recoQQmi4mom->Pt()>12){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==25&&recoQQmi4mom->Pt()>15){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==26&&recoQQmi4mom->Pt()>20){deno_e[k]->Fill(recoQQmi4mom->Eta());}
 
               if(
                   ((Reco_QQ_mumi_trig[j]&((ULong64_t)pow(2, k)))==((ULong64_t)pow(2, k))) && 
@@ -373,11 +428,13 @@ void getEff(){
               {
                 nume_p[k]->Fill(recoQQmi4mom->Pt());
                 //DoubleMu trig
-                if(k!=12&&k!=13&&k!=14&&k!=15&&k!=16&&k!=17&&k!=18){
+                //if(k!=12&&k!=13&&k!=14&&k!=15&&k!=16&&k!=17&&k!=18){
+	        //Santona
+		if(k!=10&&k!=11&&k!=12&&k!=13&&k!=14&&k!=15&&k!=16&&k!=17&&k!=18&&k!=19&&k!=20&&k!=21&&k!=22&&k!=23&&k!=24&&k!=25&&k!=26){
                   nume_e[k]->Fill(recoQQmi4mom->Eta());
                 }
                 //SingleMu trig
-                if(k==12&&recoQQmi4mom->Pt()>12){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+/*                if(k==12&&recoQQmi4mom->Pt()>12){nume_e[k]->Fill(recoQQmi4mom->Eta());}
                 if(k==13&&recoQQmi4mom->Pt()>15){nume_e[k]->Fill(recoQQmi4mom->Eta());}
                 if(k==14&&recoQQmi4mom->Pt()>3){nume_e[k]->Fill(recoQQmi4mom->Eta());}
                 if(k==15&&recoQQmi4mom->Pt()>5){
@@ -386,6 +443,26 @@ void getEff(){
                 if(k==16&&recoQQmi4mom->Pt()>7){nume_e[k]->Fill(recoQQmi4mom->Eta());}
                 if(k==17&&recoQQmi4mom->Pt()>12){nume_e[k]->Fill(recoQQmi4mom->Eta());}
                 if(k==18&&recoQQmi4mom->Pt()>15){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+// */
+              //Santona
+	      //SingleMu trig
+              if(k==10&&recoQQmi4mom->Pt()>3){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==11&&recoQQmi4mom->Pt()>5){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==12&&recoQQmi4mom->Pt()>7){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==13&&recoQQmi4mom->Pt()>12){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==14&&recoQQmi4mom->Pt()>16){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==15&&recoQQmi4mom->Pt()>3){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==16&&recoQQmi4mom->Pt()>5){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==17&&recoQQmi4mom->Pt()>7){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==18&&recoQQmi4mom->Pt()>12){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==19&&recoQQmi4mom->Pt()>15){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==20&&recoQQmi4mom->Pt()>20){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==21&&recoQQmi4mom->Pt()>3){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==22&&recoQQmi4mom->Pt()>5){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==23&&recoQQmi4mom->Pt()>7){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==24&&recoQQmi4mom->Pt()>12){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==25&&recoQQmi4mom->Pt()>15){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==26&&recoQQmi4mom->Pt()>20){nume_e[k]->Fill(recoQQmi4mom->Eta());}
               }
             } 
             //Reco_QQ_mumi
@@ -396,17 +473,39 @@ void getEff(){
               ) //select tag (mumi)
             {
               deno_p[k]->Fill(recoQQpl4mom->Pt());
-              if(k!=12&&k!=13&&k!=14&&k!=15&&k!=16&&k!=17&&k!=18){
+              //if(k!=12&&k!=13&&k!=14&&k!=15&&k!=16&&k!=17&&k!=18){
+	      //Santona
+              if(k!=10&&k!=11&&k!=12&&k!=13&&k!=14&&k!=15&&k!=16&&k!=17&&k!=18&&k!=19&&k!=20&&k!=21&&k!=22&&k!=23&&k!=24&&k!=25&&k!=26){
                 deno_e[k]->Fill(recoQQpl4mom->Eta());
               }
               //SingleMu trig
-              if(k==12&&recoQQpl4mom->Pt()>12){deno_e[k]->Fill(recoQQpl4mom->Eta());}
+/*              if(k==12&&recoQQpl4mom->Pt()>12){deno_e[k]->Fill(recoQQpl4mom->Eta());}
               if(k==13&&recoQQpl4mom->Pt()>15){deno_e[k]->Fill(recoQQpl4mom->Eta());}
               if(k==14&&recoQQpl4mom->Pt()>3){deno_e[k]->Fill(recoQQpl4mom->Eta());}
               if(k==15&&recoQQpl4mom->Pt()>5){deno_e[k]->Fill(recoQQpl4mom->Eta());}
               if(k==16&&recoQQpl4mom->Pt()>7){deno_e[k]->Fill(recoQQpl4mom->Eta());}
               if(k==17&&recoQQpl4mom->Pt()>12){deno_e[k]->Fill(recoQQpl4mom->Eta());}
               if(k==18&&recoQQpl4mom->Pt()>15){deno_e[k]->Fill(recoQQpl4mom->Eta());}
+// */
+	      //Santona
+              if(k==10&&recoQQmi4mom->Pt()>3){deno_e[k]->Fill(recoQQmi4mom->Eta());}//denominator for SingleMu trigs
+              if(k==11&&recoQQmi4mom->Pt()>5){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==12&&recoQQmi4mom->Pt()>7){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==13&&recoQQmi4mom->Pt()>12){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==14&&recoQQmi4mom->Pt()>16){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==15&&recoQQmi4mom->Pt()>3){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==16&&recoQQmi4mom->Pt()>5){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==17&&recoQQmi4mom->Pt()>7){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==18&&recoQQmi4mom->Pt()>12){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==19&&recoQQmi4mom->Pt()>15){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==20&&recoQQmi4mom->Pt()>20){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==21&&recoQQmi4mom->Pt()>3){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==22&&recoQQmi4mom->Pt()>5){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==23&&recoQQmi4mom->Pt()>7){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==24&&recoQQmi4mom->Pt()>12){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==25&&recoQQmi4mom->Pt()>15){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+              if(k==26&&recoQQmi4mom->Pt()>20){deno_e[k]->Fill(recoQQmi4mom->Eta());}
+
               if(
                   ((Reco_QQ_mupl_trig[j]&((ULong64_t)pow(2, k)))==((ULong64_t)pow(2, k))) && 
                   ((HLTriggers&((ULong64_t)pow(2, k)))==((ULong64_t)pow(2, k)))
@@ -414,10 +513,12 @@ void getEff(){
               {
                 nume_p[k]->Fill(recoQQpl4mom->Pt());
                 //DoubleMu trig
-                if(k!=12&&k!=13&&k!=14&&k!=15&&k!=16&&k!=17&&k!=18){
+                //if(k!=12&&k!=13&&k!=14&&k!=15&&k!=16&&k!=17&&k!=18){
+	        //Santona
+	        if(k!=10&&k!=11&&k!=12&&k!=13&&k!=14&&k!=15&&k!=16&&k!=17&&k!=18&&k!=19&&k!=20&&k!=21&&k!=22&&k!=23&&k!=24&&k!=25&&k!=26){
                   nume_e[k]->Fill(recoQQpl4mom->Eta());
                 }
-                if(k==12&&recoQQpl4mom->Pt()>12){nume_e[k]->Fill(recoQQpl4mom->Eta());}
+/*                if(k==12&&recoQQpl4mom->Pt()>12){nume_e[k]->Fill(recoQQpl4mom->Eta());}
                 if(k==13&&recoQQpl4mom->Pt()>15){nume_e[k]->Fill(recoQQpl4mom->Eta());}
                 if(k==14&&recoQQpl4mom->Pt()>3){nume_e[k]->Fill(recoQQpl4mom->Eta());}
                 if(k==15&&recoQQpl4mom->Pt()>5){nume_e[k]->Fill(recoQQpl4mom->Eta(),((trigPrescale[14]%trigPrescale[k]!=0)?trigPrescale[k]:1));}
@@ -425,10 +526,35 @@ void getEff(){
                 if(k==17&&recoQQpl4mom->Pt()>12){nume_e[k]->Fill(recoQQpl4mom->Eta());}
                 if(k==18&&recoQQpl4mom->Pt()>15){nume_e[k]->Fill(recoQQpl4mom->Eta());}
                 //SingleMu trig
+// */
+                //Santona
+                //SingleMu trig
+                if(k==10&&recoQQmi4mom->Pt()>3){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+                if(k==11&&recoQQmi4mom->Pt()>5){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+                if(k==12&&recoQQmi4mom->Pt()>7){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+                if(k==13&&recoQQmi4mom->Pt()>12){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+                if(k==14&&recoQQmi4mom->Pt()>16){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+                if(k==15&&recoQQmi4mom->Pt()>3){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+                if(k==16&&recoQQmi4mom->Pt()>5){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+                if(k==17&&recoQQmi4mom->Pt()>7){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+                if(k==18&&recoQQmi4mom->Pt()>12){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+                if(k==19&&recoQQmi4mom->Pt()>15){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+                if(k==20&&recoQQmi4mom->Pt()>20){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+                if(k==21&&recoQQmi4mom->Pt()>3){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+                if(k==22&&recoQQmi4mom->Pt()>5){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+                if(k==23&&recoQQmi4mom->Pt()>7){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+                if(k==24&&recoQQmi4mom->Pt()>12){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+                if(k==25&&recoQQmi4mom->Pt()>15){nume_e[k]->Fill(recoQQmi4mom->Eta());}
+                if(k==26&&recoQQmi4mom->Pt()>20){nume_e[k]->Fill(recoQQmi4mom->Eta());}
               }//if probe numerator
             }//if probe denominator
           }//if tag
         }//for Fill
+
+///////////// Done So Far //////////////////
+
+
+
         //DoubleMu10 for different mass window
         for(int k=0; k<Ntrig; k++){
           if( Cond&&//soft muon cut                
@@ -592,7 +718,7 @@ void getEff(){
     }//NOT use TnP
   }//for nevent
 
-  gROOT->Macro("~/JpsiStyle.C");
+  //gROOT->Macro("~/JpsiStyle.C");
   gStyle->SetOptStat(1);
   gStyle->SetFillColor(0);
   gSystem->mkdir(Form("figs/%s/%s/%s",date.c_str(),dataset.c_str(),vername.c_str()),1);
@@ -711,7 +837,7 @@ void getEff(){
       test->SaveAs("test.png");;
       //for turnOn all double mu trig
       if(i!=12&&i!=13&&i!=14&&i!=15&&i!=16&&i!=17&&i!=18){
-        cout<<"DouebleMu triggers : "<<i<<endl;
+        cout<<"DoubleMu triggers : "<<i<<endl;
         c2->cd(1); 
         if(i==0) eff_p[i]->Draw("alp"); 
         eff_p[i]->Draw("lp"); 
