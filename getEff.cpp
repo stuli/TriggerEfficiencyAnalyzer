@@ -103,7 +103,7 @@ void getEff(){
   //define Trigger
   const int Ntrig = 27; // 18 for 2015
   string trigname[Ntrig+1]={
-/*    "HLT_PAL1DoubleMuOpen_v1",
+/*    "HLT_PAL1DoubleMuOpen_v1", // 20 total
     "HLT_PAL1DoubleMuOpen_OS_v1",
     "HLT_PAL1DoubleMuOpen_SS_v1",
     "HLT_PAL1DoubleMu0_v1",
@@ -166,34 +166,34 @@ void getEff(){
 // */
     // For 2017 (Latest) 28 total
     //Double
-    "HLT_L1DoubleMuOpen_v1",//0
-    "HLT_L1DoubleMuOpen_OS_v1",//1
-    "HLT_L1DoubleMuOpen_SS_v1",//2
-    "HLT_L1DoubleMu0_v1",//3
-    "HLT_L1DoubleMu0_HighQ_v1",//4
-    "HLT_L1DoubleMu10_v1",//5
-    "HLT_L2DoubleMu0_v1",//6
-    "HLT_L2DoubleMu10_v1",//7
-    "HLT_L3DoubleMu0_v1",//8
-    "HLT_L3DoubleMu10_v1",//9
+    "HLT_HIL1DoubleMuOpen_v1",//0
+    "HLT_HIL1DoubleMuOpen_OS_v1",//1
+    "HLT_HIL1DoubleMuOpen_SS_v1",//2
+    "HLT_HIL1DoubleMu0_v1",//3
+    "HLT_HIL1DoubleMu0_HighQ_v1",//4
+    "HLT_HIL1DoubleMu10_v1",//5
+    "HLT_HIL2DoubleMu0_v1",//6
+    "HLT_HIL2DoubleMu10_v1",//7
+    "HLT_HIL3DoubleMu0_v1",//8
+    "HLT_HIL3DoubleMu10_v1",//9
     //Single
-    "HLT_L1Mu3_v1",//10
-    "HLT_L1Mu5_v1",//11
-    "HLT_L1Mu7_v1",//12
-    "HLT_L1Mu12_v1",//13
-    "HLT_L1Mu16_v1",//14
-    "HLT_L2Mu3_v1",//15
-    "HLT_L2Mu5_v1",//16
-    "HLT_L2Mu7_v1",//17
-    "HLT_L2Mu12_v1",//18
-    "HLT_L2Mu15_v1",//19
-    "HLT_L2Mu20_v1",//20
-    "HLT_L3Mu3_v1",//21
-    "HLT_L3Mu5_v1",//22
-    "HLT_L3Mu7_v1",//23
-    "HLT_L3Mu12_v1",//24
-    "HLT_L3Mu15_v1",//25
-    "HLT_L3Mu20_v1",//26
+    "HLT_HIL1Mu3_v1",//10
+    "HLT_HIL1Mu5_v1",//11
+    "HLT_HIL1Mu7_v1",//12
+    "HLT_HIL1Mu12_v1",//13
+    "HLT_HIL1Mu16_v1",//14
+    "HLT_HIL2Mu3_v1",//15
+    "HLT_HIL2Mu5_v1",//16
+    "HLT_HIL2Mu7_v1",//17
+    "HLT_HIL2Mu12_v1",//18
+    "HLT_HIL2Mu15_v1",//19
+    "HLT_HIL2Mu20_v1",//20
+    "HLT_HIL3Mu3_v1",//21
+    "HLT_HIL3Mu5_v1",//22
+    "HLT_HIL3Mu7_v1",//23
+    "HLT_HIL3Mu12_v1",//24
+    "HLT_HIL3Mu15_v1",//25
+    "HLT_HIL3Mu20_v1",//26
     "HLT_HIL3Mu3_Track1_Jpsi_v1"//27
   };
 
@@ -551,17 +551,15 @@ void getEff(){
           }//if tag
         }//for Fill
 
-///////////// Done So Far //////////////////
-
-
-
         //DoubleMu10 for different mass window
         for(int k=0; k<Ntrig; k++){
           if( Cond&&//soft muon cut                
               Reco_QQ_sign[k]==0&&//opposite sign  
               recoQQ4mom->M()>himassmin && recoQQ4mom->M()<himassmax&&//mass window
               AcceptanceCut(recoQQpl4mom)&&AcceptanceCut(recoQQmi4mom)&&//Acceptance cut
-              k!=0&&k!=1&&k!=2&&k!=3&&k!=4&&k!=5&&k!=6&&k!=7&&k!=8&&k!=12&&k!=13&&k!=14&&k!=15&&k!=16&&k!=17&&k!=18
+              //k!=0&&k!=1&&k!=2&&k!=3&&k!=4&&k!=5&&k!=6&&k!=7&&k!=8&&k!=12&&k!=13&&k!=14&&k!=15&&k!=16&&k!=17&&k!=18
+	      //Santona
+              k!=0&&k!=1&&k!=2&&k!=3&&k!=4&&k!=6&&k!=8&&k!=10&&k!=11&&k!=12&&k!=13&&k!=14&&k!=15&&k!=16&&k!=17&&k!=18&&k!=19&&k!=20&&k!=21&&k!=22&&k!=23&&k!=24&&k!=25&&k!=26
             )
           {
             if(
@@ -575,7 +573,8 @@ void getEff(){
               if(
                   ((Reco_QQ_mumi_trig[j]&((ULong64_t)pow(2, k)))==((ULong64_t)pow(2, k))) && 
                   ((HLTriggers&((ULong64_t)pow(2, k)))==((ULong64_t)pow(2, k)))) {
-                nume_p[k]->Fill(recoQQmi4mom->Pt(),trigPrescale[k]);
+		//Santona
+                nume_p[k]->Fill(recoQQmi4mom->Pt()); //,trigPrescale[k]);
                 if(recoQQmi4mom->Pt()>10){nume_e[k]->Fill(recoQQmi4mom->Eta());}
               }
             } 
@@ -592,7 +591,8 @@ void getEff(){
                   ((HLTriggers&((ULong64_t)pow(2, k)))==((ULong64_t)pow(2, k)))
                 ) 
               {
-                nume_p[k]->Fill(recoQQpl4mom->Pt(),trigPrescale[k]);
+		//Santona
+                nume_p[k]->Fill(recoQQpl4mom->Pt()); //,trigPrescale[k]);
                 if(recoQQpl4mom->Pt()>10){nume_e[k]->Fill(recoQQpl4mom->Eta());}
               }//if probe numerator
             }//if probe denominator
@@ -668,9 +668,11 @@ void getEff(){
 //          }//if deno
 //        }//for Fill
 //      }//for SingleMu trigger
-    }//for True
+    }//for usetnp True
     //
+
     //it does not use TnP
+    // Santona: Haven't updated since TnP is set to true
     else{
       if(i==10||i==100||i==1000){cout<<"@@@@@@@@@@@@@@@@@@@@@@ IT'S NOT! TNP @@@@@@@@@@@@@@@@@@@@@"<<endl;}
       //for SingleMu trigger, maybe WRONG!!! because it used Reco_mu
@@ -729,6 +731,9 @@ void getEff(){
   TLine *lptx10 = new TLine(10.,0, 10.,1);
   TLine *lptx12 = new TLine(12.,0, 12.,1);
   TLine *lptx15 = new TLine(15.,0, 15.,1);
+  //Santona
+  TLine *lptx16 = new TLine(16.,0, 16.,1);
+  TLine *lptx20 = new TLine(20.,0, 20.,1);
   TLine *lpty[Ntrig];
   TLine *letay[Ntrig];
   lptx3->SetLineStyle(2);   lptx3->SetLineWidth(2);  lptx3->SetLineColor(kMagenta+2);
@@ -737,6 +742,9 @@ void getEff(){
   lptx10->SetLineStyle(2); lptx10->SetLineWidth(2); lptx10->SetLineColor(kRed+2);
   lptx12->SetLineStyle(2); lptx12->SetLineWidth(2); lptx12->SetLineColor(kBlue+2);
   lptx15->SetLineStyle(2); lptx15->SetLineWidth(2); lptx15->SetLineColor(kMagenta+2);
+  //Santona
+  lptx16->SetLineStyle(2); lptx16->SetLineWidth(2); lptx16->SetLineColor(kBlue+2);
+  lptx20->SetLineStyle(2); lptx20->SetLineWidth(2); lptx20->SetLineColor(kRed+2);
 
   TCanvas *c1;
   TCanvas *c2 = new TCanvas("c2","c2",1200,600);
@@ -755,8 +763,14 @@ void getEff(){
   c8->Divide(2,1);
   TCanvas *c9 = new TCanvas("c9","c9",1200,600);
   c9->Divide(2,1);
+  //Santona
+  TCanvas *c10 = new TCanvas("c10","c10",1200,600);
+  c10->Divide(2,1);
+  TCanvas *c11 = new TCanvas("c11","c11",1200,600);
+  c11->Divide(2,1);
   TCanvas *test = new TCanvas("test","test",1200,600);
   test->Divide(2,1);
+
   TLegend *leg[Ntrig];
   TLegend *leg1[Ntrig];
   TLegend *leg2[Ntrig];
@@ -766,6 +780,9 @@ void getEff(){
   TLegend *leg6[Ntrig];
   TLegend *leg7[Ntrig];
   TLegend *leg8[Ntrig];
+  //Santona
+  TLegend *leg9[Ntrig];
+  TLegend *leg10[Ntrig];
 
   //Set histograms & Draw histograms
   for(int i=0; i<Ntrig; i++){
@@ -811,20 +828,23 @@ void getEff(){
           Form("figs/%s/%s/%s/h_pt_efficiency_%s.root",date.c_str(),dataset.c_str(),vername.c_str(),trigname[i].c_str())
           );
       //Set line for pt TurnOn
-      if(i==14) {lptx3->Draw("sames");}
-      if(i==15) {lptx5->Draw("sames");}
-      if(i==16) {lptx7->Draw("sames");}
-      if(i==9 || i==10 || i==11) {lptx10->Draw("sames");}
-      if(i==12 || i==17) {lptx12->Draw("sames");}
-      if(i==13 || i==18) {lptx15->Draw("sames");}
+      //Santona
+      if(i==10 || i==15 || i==21) {lptx3->Draw("sames");} //Santona //was 14
+      if(i==11 || i==16 || i==22) {lptx5->Draw("sames");} //Santona //was 15
+      if(i==12 || i==17 || i==23) {lptx7->Draw("sames");} //Santona //was 16
+      if(i==5 || i==7 || i==9) {lptx10->Draw("sames");} //Santona //was 9,10,11
+      if(i==13 || i==18 || i==24) {lptx12->Draw("sames");} //Santona //was 12,17
+      if(i==19 || i==25) {lptx15->Draw("sames");} //Santona //was 13,18
+      if(i==14) {lptx16->Draw("sames");} //Santona
+      if(i==20 || i==26) {lptx20->Draw("sames");} //Santona
       lpty[i]->Draw("sames");
       c1->cd(2);
       eff_e[i]->Draw("ap");
       leg[i]->Draw("sames");
       eff_p[i]->GetHistogram()->GetXaxis()->SetTitle("p_{T}(GeV/c)");
       eff_e[i]->GetHistogram()->GetXaxis()->SetTitle("#eta");
-      eff_p[i]->GetHistogram()->GetYaxis()->SetTitle("efficiency");
-      eff_e[i]->GetHistogram()->GetYaxis()->SetTitle("efficiency");
+      eff_p[i]->GetHistogram()->GetYaxis()->SetTitle("Efficiency");
+      eff_e[i]->GetHistogram()->GetYaxis()->SetTitle("Efficiency");
       eff_e[i]->SaveAs(
           Form("figs/%s/%s/%s/h_eta_efficiency_%s.root",date.c_str(),dataset.c_str(),vername.c_str(),trigname[i].c_str())
           );
@@ -836,7 +856,9 @@ void getEff(){
       test->cd(1); deno_phi[12]->Draw("pe"); test->cd(2); nume_phi[12]->Draw("pe");
       test->SaveAs("test.png");;
       //for turnOn all double mu trig
-      if(i!=12&&i!=13&&i!=14&&i!=15&&i!=16&&i!=17&&i!=18){
+      //if(i!=12&&i!=13&&i!=14&&i!=15&&i!=16&&i!=17&&i!=18){
+      //Santona
+      if(i!=10&&i!=11&&i!=12&&i!=13&&i!=14&&i!=15&&i!=16&&i!=17&&i!=18&&i!=19&&i!=20&&i!=21&&i!=22&&i!=23&&i!=24&&i!=25&&i!=26){
         cout<<"DoubleMu triggers : "<<i<<endl;
         c2->cd(1); 
         if(i==0) eff_p[i]->Draw("alp"); 
@@ -852,8 +874,8 @@ void getEff(){
         leg1[7] = new TLegend(0.175,0.725,0.70,0.750);
         leg1[8] = new TLegend(0.175,0.700,0.70,0.725);
         leg1[9] = new TLegend(0.175,0.675,0.70,0.700);
-        leg1[10] = new TLegend(0.175,0.650,0.70,0.675);
-        leg1[11] = new TLegend(0.175,0.625,0.70,0.650);
+        //leg1[10] = new TLegend(0.175,0.650,0.70,0.675); //Santona
+        //leg1[11] = new TLegend(0.175,0.625,0.70,0.650); //Santona
         leg1[i]->AddEntry(eff_p[i],Form("%s",trigname[i].c_str()),"lp");
         SetLegendStyle(leg1[i]);
         leg1[i]->SetFillStyle(0);
@@ -868,7 +890,7 @@ void getEff(){
             );
       }
       //for turnOn all double mu Open_OS_SS trig
-      if(i==0||i==1||i==2){
+      if(i==0||i==1||i==2){  //Santona, same as before
         c3->cd(1); 
         if(i==0) eff_p[i]->Draw("alp"); 
         eff_p[i]->Draw("lp"); 
@@ -890,14 +912,14 @@ void getEff(){
             );
       }
       //for turnOn all double mu Open_0_HighQ trig
-      if(i==0||i==3||i==5){
+      if(i==0||i==3||i==4){ //Santona //was 0,3,5
         c4->cd(1); 
         if(i==0) eff_p[i]->Draw("alp"); 
         eff_p[i]->Draw("lp"); 
         lpty[i]->Draw("sames");
         leg3[0] = new TLegend(0.175,0.900,0.70,0.925);
         leg3[3] = new TLegend(0.175,0.875,0.70,0.900);
-        leg3[5] = new TLegend(0.175,0.850,0.70,0.875);
+        leg3[4] = new TLegend(0.175,0.850,0.70,0.875);
         leg3[i]->AddEntry(eff_p[i],Form("%s",trigname[i].c_str()),"lp");
         SetLegendStyle(leg3[i]);
         leg3[i]->SetFillStyle(0);
@@ -912,14 +934,14 @@ void getEff(){
             );
       }
       //for turnOn all double mu L1L2L3_0
-      if(i==3||i==6||i==7){
+      if(i==3||i==6||i==8){  //Santona //Was 3,6,7
         c5->cd(1); 
         if(i==3) eff_p[i]->Draw("alp"); 
         eff_p[i]->Draw("lp"); 
         lpty[i]->Draw("sames");
         leg4[3] = new TLegend(0.175,0.900,0.70,0.925);
         leg4[6] = new TLegend(0.175,0.875,0.70,0.900);
-        leg4[7] = new TLegend(0.175,0.850,0.70,0.875);
+        leg4[8] = new TLegend(0.175,0.850,0.70,0.875);
         leg4[i]->AddEntry(eff_p[i],Form("%s",trigname[i].c_str()),"lp");
         SetLegendStyle(leg4[i]);
         leg4[i]->SetFillStyle(0);
@@ -934,21 +956,21 @@ void getEff(){
             );
       }
       //for turnOn all double mu L1L2L3_10
-      if(i==9||i==10||i==11){
+      if(i==5||i==7||i==9){ //Santona //Was 9,10,11
         c6->cd(1);
-        if(i==9) eff_p[i]->Draw("alp"); 
+        if(i==5) eff_p[i]->Draw("alp"); 
         eff_p[i]->Draw("lp"); 
         lptx10->Draw("sames");
         lpty[i]->Draw("sames");
-        leg5[9] = new TLegend(0.175,0.900,0.70,0.925);
-        leg5[10] = new TLegend(0.175,0.875,0.70,0.900);
-        leg5[11] = new TLegend(0.175,0.850,0.70,0.875);
+        leg5[5] = new TLegend(0.175,0.900,0.70,0.925);
+        leg5[7] = new TLegend(0.175,0.875,0.70,0.900);
+        leg5[9] = new TLegend(0.175,0.850,0.70,0.875);
         leg5[i]->AddEntry(eff_p[i],Form("%s",trigname[i].c_str()),"lp");
         SetLegendStyle(leg5[i]);
         leg5[i]->SetFillStyle(0);
         leg5[i]->Draw("sames");
         c6->cd(2); 
-        if(i==9) eff_e[i]->Draw("ap"); 
+        if(i==5) eff_e[i]->Draw("ap"); 
         eff_e[i]->Draw("p");
         letay[i]->Draw("sames");
         leg5[i]->Draw("sames");
@@ -956,21 +978,22 @@ void getEff(){
             Form("figs/%s/%s/%s/efficiency_DoubleL1L2L3Mu_10_TurnOn.png",date.c_str(),dataset.c_str(),vername.c_str())
             );
       }
-      //for turnOn single mu trig L2Mu12,L2Mu12
-      if(i==12||i==17){
+      //for turnOn single mu trig L1Mu12,L2Mu12,L3Mu12
+      if(i==13||i==18||i==24){ //Santona //was 12,17
         c7->cd(1); 
-        if(i==12) eff_p[i]->Draw("alp"); 
+        if(i==13) eff_p[i]->Draw("alp"); 
         eff_p[i]->Draw("lp"); 
         lptx12->Draw("sames");
         lpty[i]->Draw("sames");
-        leg6[12] = new TLegend(0.175,0.900,0.70,0.925);
-        leg6[17] = new TLegend(0.175,0.875,0.70,0.900);
+        leg6[13] = new TLegend(0.175,0.900,0.70,0.925);
+        leg6[18] = new TLegend(0.175,0.875,0.70,0.900);
+	leg6[24] = new TLegend(0.175,0.850,0.70,0.875);
         leg6[i]->AddEntry(eff_p[i],Form("%s",trigname[i].c_str()),"lp");
         SetLegendStyle(leg6[i]);
         leg6[i]->SetFillStyle(0);
         leg6[i]->Draw("sames");
         c7->cd(2); 
-        if(i==12) eff_e[i]->Draw("ap"); 
+        if(i==13) eff_e[i]->Draw("ap"); 
         eff_e[i]->Draw("p");
         letay[i]->Draw("sames");
         leg6[i]->Draw("sames");
@@ -980,55 +1003,113 @@ void getEff(){
 
       }
       //for turnOn single mu trig L2Mu15,L3Mu15
-      if(i==13||i==18){
+      if(i==19||i==25){ //Santona //was 13,18
         c8->cd(1); 
-        if(i==13) eff_p[i]->Draw("alp"); 
+        if(i==19) eff_p[i]->Draw("alp"); 
         eff_p[i]->Draw("lp"); 
         lptx15->Draw("sames");
         lpty[i]->Draw("sames");
-        leg7[13] = new TLegend(0.175,0.900,0.70,0.925);
-        leg7[18] = new TLegend(0.175,0.875,0.70,0.900);
+        leg7[19] = new TLegend(0.175,0.900,0.70,0.925);
+        leg7[25] = new TLegend(0.175,0.875,0.70,0.900);
         leg7[i]->AddEntry(eff_p[i],Form("%s",trigname[i].c_str()),"lp");
         SetLegendStyle(leg7[i]);
         leg7[i]->SetFillStyle(0);
         leg7[i]->Draw("sames");
         c8->cd(2); 
-        if(i==13) eff_e[i]->Draw("ap"); 
-        if(i==18) eff_e[i]->Draw("p");
+        if(i==19) eff_e[i]->Draw("ap"); 
+        if(i==25) eff_e[i]->Draw("p");
         letay[i]->Draw("sames");
         leg7[i]->Draw("sames");
         c8->SaveAs(
             Form("figs/%s/%s/%s/efficiency_SingleL2L3Mu15TurnOn.png",date.c_str(),dataset.c_str(),vername.c_str())
             );
       }
-      //for turnOn single mu trig 3,5,7,12,15
-      if(i==14||i==15||i==16||i==17||i==18){
-        c9->cd(1); 
+      //Santona: adding 16 and 20
+      //for turnOn single mu trig L1Mu16
+      if(i==14){
+        c9->cd(1); //c9's new use
         if(i==14) eff_p[i]->Draw("alp"); 
         eff_p[i]->Draw("lp"); 
-        lptx3->Draw("sames"); lptx5->Draw("sames"); lptx7->Draw("sames"); lptx12->Draw("sames"); lptx15->Draw("sames");
+        lptx16->Draw("sames");
         lpty[i]->Draw("sames");
         leg8[14] = new TLegend(0.175,0.900,0.70,0.925);
-        leg8[15] = new TLegend(0.175,0.875,0.70,0.900);
-        leg8[16] = new TLegend(0.175,0.850,0.70,0.875);
-        leg8[17] = new TLegend(0.175,0.825,0.70,0.850);
-        leg8[18] = new TLegend(0.175,0.800,0.70,0.825);
         leg8[i]->AddEntry(eff_p[i],Form("%s",trigname[i].c_str()),"lp");
         SetLegendStyle(leg8[i]);
         leg8[i]->SetFillStyle(0);
         leg8[i]->Draw("sames");
         c9->cd(2); 
         if(i==14) eff_e[i]->Draw("ap"); 
-        eff_e[i]->Draw("p");
         letay[i]->Draw("sames");
         leg8[i]->Draw("sames");
         c9->SaveAs(
+            Form("figs/%s/%s/%s/efficiency_SingleL1Mu16TurnOn.png",date.c_str(),dataset.c_str(),vername.c_str())
+            );   
+      }    
+      //for turnOn single mu trig L2Mu20,L3Mu20
+      if(i==20||i==26){ //Santona
+        c10->cd(1); //new
+        if(i==20) eff_p[i]->Draw("alp");
+        eff_p[i]->Draw("lp");
+        lptx20->Draw("sames");
+        lpty[i]->Draw("sames");
+        leg9[20] = new TLegend(0.175,0.900,0.70,0.925); 
+        leg9[26] = new TLegend(0.175,0.875,0.70,0.900);
+        leg9[i]->AddEntry(eff_p[i],Form("%s",trigname[i].c_str()),"lp");
+        SetLegendStyle(leg9[i]);
+        leg9[i]->SetFillStyle(0);
+        leg9[i]->Draw("sames");
+        c10->cd(2); 
+        if(i==20) eff_e[i]->Draw("ap"); 
+        if(i==26) eff_e[i]->Draw("p");
+        letay[i]->Draw("sames");
+        leg9[i]->Draw("sames");
+        c10->SaveAs(
+            Form("figs/%s/%s/%s/efficiency_SingleL2L3Mu20TurnOn.png",date.c_str(),dataset.c_str(),vername.c_str())
+            );   
+      }    
+
+////// Here Now ///////
+      //for turnOn single mu trig 3,5,7,12,15,16,20 //I'm including all L1,L2,L3
+      if(i==10||i==11||i==12||i==13||i==14||i==15||i==16||i==17||i==18||i==19||i==20||i==21||i==22||i==23||i==24||i==25||i==26){ //Santona //was 14,15,16,17,18 //This one is confusing. Why was L2 left out?
+        c11->cd(1); 
+        if(i==10) eff_p[i]->Draw("alp"); 
+        eff_p[i]->Draw("lp"); 
+        lptx3->Draw("sames"); lptx5->Draw("sames"); lptx7->Draw("sames"); lptx12->Draw("sames"); lptx15->Draw("sames"); lptx16->Draw("sames"); lptx20->Draw("sames"); //Santona
+        lpty[i]->Draw("sames");
+        leg10[10] = new TLegend(0.175,0.900,0.70,0.925);
+        leg10[11] = new TLegend(0.175,0.875,0.70,0.900);
+        leg10[12] = new TLegend(0.175,0.850,0.70,0.875);
+        leg10[13] = new TLegend(0.175,0.825,0.70,0.850);
+        leg10[14] = new TLegend(0.175,0.800,0.70,0.825);
+        leg10[15] = new TLegend(0.175,0.775,0.70,0.800);
+        leg10[16] = new TLegend(0.175,0.750,0.70,0.775);
+        leg10[17] = new TLegend(0.175,0.725,0.70,0.750);
+        leg10[18] = new TLegend(0.175,0.700,0.70,0.725);
+        leg10[19] = new TLegend(0.175,0.675,0.70,0.700);
+        leg10[20] = new TLegend(0.175,0.650,0.70,0.675);
+        leg10[21] = new TLegend(0.175,0.625,0.70,0.650);
+        leg10[22] = new TLegend(0.175,0.600,0.70,0.625);
+        leg10[23] = new TLegend(0.175,0.575,0.70,0.600);
+        leg10[24] = new TLegend(0.175,0.550,0.70,0.575);
+        leg10[25] = new TLegend(0.175,0.525,0.70,0.550);
+        leg10[26] = new TLegend(0.175,0.500,0.70,0.525);
+        leg10[i]->AddEntry(eff_p[i],Form("%s",trigname[i].c_str()),"lp");
+        SetLegendStyle(leg10[i]);
+        leg10[i]->SetFillStyle(0);
+        leg10[i]->Draw("sames");
+        c11->cd(2); 
+        if(i==10) eff_e[i]->Draw("ap"); 
+        eff_e[i]->Draw("p");
+        letay[i]->Draw("sames");
+        leg10[i]->Draw("sames");
+        c11->SaveAs(
             Form("figs/%s/%s/%s/efficiency_SingleMuTurnOn.png",date.c_str(),dataset.c_str(),vername.c_str())
             );
       }
       //to be Ratio plot between f1 and f2
       //for(){}
     }//use TnP
+    // Santona: Not using TnP, not updated
     else{
       if(i!=0&&i!=1&&i!=2&&i!=3&&i!=4&&i!=5&&i!=6&&i!=7&&i!=8&&i!=9&&i!=10&&i!=11){
         c1 = new TCanvas("c1","c1",1200,600);
@@ -1131,23 +1212,29 @@ void getEff(){
       }
     }//it does not use TnP
   }//for Ntrig
-                  cout<<"denominator L3Mu3: "<<deno_p[14]->GetEntries()<<endl;
+                  /*cout<<"denominator L3Mu3: "<<deno_p[14]->GetEntries()<<endl;
                   cout<<"Muons are fired L3Mu3 weighted: "<<nume_p[14]->GetEntries()<<endl;
                   cout<<"denominator L3Mu5: "<<deno_p[15]->GetEntries()<<endl;
                   cout<<"Muons are fired L3Mu5 weighted: "<<nume_p[15]->GetEntries()<<endl;
+		  // */
+		  //Santona
+		  cout<<"denominator L1Mu3: "<<deno_p[10]->GetEntries()<<endl;
+                  cout<<"Muons are fired L1Mu3 weighted: "<<nume_p[10]->GetEntries()<<endl;
+                  cout<<"denominator L1Mu5: "<<deno_p[11]->GetEntries()<<endl;
+                  cout<<"Muons are fired L1Mu5 weighted: "<<nume_p[11]->GetEntries()<<endl;
+		  //Santona: I think this is all just sampling
                   c1->cd();
-                  nume_p[14]->Draw();
-                  c1->SaveAs("nume14.png");
+                  nume_p[10]->Draw();
+                  c1->SaveAs("nume10.png");
                   c2->cd();
-                  nume_p[15]->Draw();
-                  c2->SaveAs("nume15.png");
+                  nume_p[11]->Draw();
+                  c2->SaveAs("nume11.png");
                   c3->cd();
-                  deno_p[14]->Draw();
-                  c3->SaveAs("deno14.png");
+                  deno_p[10]->Draw();
+                  c3->SaveAs("deno10.png");
                   c4->cd();
-                  deno_p[15]->Draw();
-                  c4->SaveAs("deno15.png");
-                  
+                  deno_p[11]->Draw();
+                  c4->SaveAs("deno11.png");
                   
 //                  cout<<"Muons are fired L3Mu3 17<pt<19: "<<test_p[1]->GetEntries()<<endl;
 //                  cout<<"Muons are fired L3Mu3 and fired L3Mu5 17<pt<19: "<<test_p[2]->GetEntries()<<endl;
