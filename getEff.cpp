@@ -81,8 +81,19 @@ void getEff(){
   //fcha->Add("/eos/cms/store/group/phys_heavyions/dileptons/Data2015/pp502TeV/TTrees/PromptReco/OniaTree_DoubleMu_PromptReco_262081_262273.root");//PromptReco_pp_DoubleMu_5TeV
   // For 2015 pp 5TeV data
   //fcha->Add("/afs/cern.ch/user/s/stuli/stuliWork/public/pp5TeV_Data/OniaTree_DoubleMu_Run2015E-PromptReco-v1_Run_262157_262328.root");  
+
   // For 2017 pp ref run, Prompt JPsi MC sample (test)
-  fcha->Add("/afs/cern.ch/user/t/twang/public/ForAndre/OniaForest.root");
+  //fcha->Add("/afs/cern.ch/user/t/twang/public/ForAndre/OniaForest.root");
+  // For 2017 pp ref run, JPsi Gun MC
+  fcha->Add("./InputFiles/Pythia8_JPsiGun_pp_2017pp502_Onia_20171017_merge.root");
+  // For 2017 pp ref run, Mu Gun MC
+  //fcha->Add("./InputFiles/Pythia8_MuGun_pp_2017pp502_Onia_20171017_merge.root");
+  // For 2017 pp ref run, Pr JPsi MC (larger)
+  //fcha->Add("./InputFiles/Pythia8_PrJPsi_pp_2017pp502_Onia_20171017_merge.root");
+  // For 2017 pp ref run, NonPr JPsi MC
+  //fcha->Add("./InputFiles/Pythia8_NonPrJPsi_pp_2017pp502_Onia_20171017_merge.root");
+  // For 2017 pp ref run, Z MC
+  //fcha->Add("./InputFiles/Pythia8_Zm10m10_pp_2017pp502_Onia_20171017_merge.root");
 
   double ptmin = 0;
   double ptmax = 50;//30
@@ -92,37 +103,44 @@ void getEff(){
   double massmax = 5;
   double himassmin = 70;
   double himassmax = 110;
-  string date="101817";
+  string date="101917";
   //string dataset="Data";
   string dataset="MC";
   //string vername="test";
   //string vername="ExpressStream_8TeV_Double_285480_285549_MB";
   //string vername="DoubleMu_PromptReco_262081_262273";
   //string vername="DoubleMu_PromptReco-v1_262157_262328";
-  string vername="PromptJPsiMC";
+  //Santona // For 2017 pp ref run
+  //string vername="PromptJPsiMC";
+  string vername="JPsiGun";
+  //string vername="MuGun";
+  //string vername="PrJPsi";
+  //string vername="NonPrJPsi";
+  //string vername="Zm10m10";
+
   //define Trigger
   const int Ntrig = 27; // 18 for 2015
   string trigname[Ntrig+1]={
-/*    "HLT_PAL1DoubleMuOpen_v1", // 20 total
-    "HLT_PAL1DoubleMuOpen_OS_v1",
-    "HLT_PAL1DoubleMuOpen_SS_v1",
-    "HLT_PAL1DoubleMu0_v1",
-    "HLT_PAL1DoubleMu0_MGT1_v1",
-    "HLT_PAL1DoubleMu0_HighQ_v1",
-    "HLT_PAL2DoubleMu0_v1",
-    "HLT_PAL3DoubleMu0_v1",
-    "HLT_PAL3DoubleMu0_HIon_v1",
-    "HLT_PAL1DoubleMu10_v1",
-    "HLT_PAL2DoubleMu10_v1",
-    "HLT_PAL3DoubleMu10_v1",
-    "HLT_PAL2Mu12_v1",
-    "HLT_PAL2Mu15_v1",
-    "HLT_PAL3Mu3_v1",
-    "HLT_PAL3Mu5_v3",
-    "HLT_PAL3Mu7_v1",
-    "HLT_PAL3Mu12_v1",
-    "HLT_PAL3Mu15_v1",
-    "HLT_PAL1MinimumBiasHF_AND_SinglePixelTrack_v1"
+/*    "HLT_PAL1DoubleMuOpen_v1", //0  // 20 total
+    "HLT_PAL1DoubleMuOpen_OS_v1",//1
+    "HLT_PAL1DoubleMuOpen_SS_v1",//2
+    "HLT_PAL1DoubleMu0_v1",//3
+    "HLT_PAL1DoubleMu0_MGT1_v1",//4
+    "HLT_PAL1DoubleMu0_HighQ_v1",//5
+    "HLT_PAL2DoubleMu0_v1",//6
+    "HLT_PAL3DoubleMu0_v1",//7
+    "HLT_PAL3DoubleMu0_HIon_v1",//8
+    "HLT_PAL1DoubleMu10_v1",//9
+    "HLT_PAL2DoubleMu10_v1",//10
+    "HLT_PAL3DoubleMu10_v1",//11
+    "HLT_PAL2Mu12_v1",//12
+    "HLT_PAL2Mu15_v1",//13
+    "HLT_PAL3Mu3_v1",//14
+    "HLT_PAL3Mu5_v3",//15
+    "HLT_PAL3Mu7_v1",//16
+    "HLT_PAL3Mu12_v1",//17
+    "HLT_PAL3Mu15_v1",//18
+    "HLT_PAL1MinimumBiasHF_AND_SinglePixelTrack_v1"//19
 // */
 /*    // For 2017 (Old)
     //Double
@@ -382,8 +400,8 @@ void getEff(){
             )
           {
             if(
-                ((Reco_QQ_mupl_trig[j]&((ULong64_t)pow(2, 14)))==((ULong64_t)pow(2, 14)))&& 
-                ((HLTriggers&((ULong64_t)pow(2, 14)))==((ULong64_t)pow(2, 14)))&&
+                ((Reco_QQ_mupl_trig[j]&((ULong64_t)pow(2, 10)))==((ULong64_t)pow(2, 10)))&& 
+                ((HLTriggers&((ULong64_t)pow(2, 10)))==((ULong64_t)pow(2, 10)))&& // Santona: 10 for L1 SingleMu3
                 recoQQpl4mom->Pt()>4
               )//select tag (mupl)
             {
@@ -392,7 +410,9 @@ void getEff(){
               //if(k!=12&&k!=13&&k!=14&&k!=15&&k!=16&&k!=17&&k!=18)
               if(k!=10&&k!=11&&k!=12&&k!=13&&k!=14&&k!=15&&k!=16&&k!=17&&k!=18&&k!=19&&k!=20&&k!=21&&k!=22&&k!=23&&k!=24&&k!=25&&k!=26) //Santona
               {
+		//Santona, NOT! introcuding pT cut when filling eta for DoubleMu trigs as well.
                 deno_e[k]->Fill(recoQQmi4mom->Eta());//denominator for DoubleMu trigs
+		//if(recoQQmi4mom->Pt()>10){deno_e[k]->Fill(recoQQmi4mom->Eta());} //Denominator for DoubleMu trigs
               }
               //SingleMu trig
 /*              if(k==12&&recoQQmi4mom->Pt()>12){deno_e[k]->Fill(recoQQmi4mom->Eta());}//denominator for SingleMu trigs
@@ -431,7 +451,9 @@ void getEff(){
                 //if(k!=12&&k!=13&&k!=14&&k!=15&&k!=16&&k!=17&&k!=18){
 	        //Santona
 		if(k!=10&&k!=11&&k!=12&&k!=13&&k!=14&&k!=15&&k!=16&&k!=17&&k!=18&&k!=19&&k!=20&&k!=21&&k!=22&&k!=23&&k!=24&&k!=25&&k!=26){
+		  //Santona, NOT! introcuding pT cut when filling eta for DoubleMu trigs as well.
                   nume_e[k]->Fill(recoQQmi4mom->Eta());
+		  //if(recoQQmi4mom->Pt()>10){nume_e[k]->Fill(recoQQmi4mom->Eta());}
                 }
                 //SingleMu trig
 /*                if(k==12&&recoQQmi4mom->Pt()>12){nume_e[k]->Fill(recoQQmi4mom->Eta());}
@@ -467,8 +489,8 @@ void getEff(){
             } 
             //Reco_QQ_mumi
             else if(
-                ((Reco_QQ_mumi_trig[j]&((ULong64_t)pow(2, 14)))==((ULong64_t)pow(2, 14))) && 
-                ((HLTriggers&((ULong64_t)pow(2, 14)))==((ULong64_t)pow(2, 14)))&&
+                ((Reco_QQ_mumi_trig[j]&((ULong64_t)pow(2, 10)))==((ULong64_t)pow(2, 10))) && 
+                ((HLTriggers&((ULong64_t)pow(2, 10)))==((ULong64_t)pow(2, 10)))&&   // Santona: 10 for L1SingleMu3, not including L2 or L3 SingleMu3
                 recoQQmi4mom->Pt()>4
               ) //select tag (mumi)
             {
@@ -551,7 +573,7 @@ void getEff(){
           }//if tag
         }//for Fill
 
-        //DoubleMu10 for different mass window
+        //ONLY DoubleMu10 for different mass window
         for(int k=0; k<Ntrig; k++){
           if( Cond&&//soft muon cut                
               Reco_QQ_sign[k]==0&&//opposite sign  
@@ -563,13 +585,15 @@ void getEff(){
             )
           {
             if(
-                ((Reco_QQ_mupl_trig[j]&((ULong64_t)pow(2, 14)))==((ULong64_t)pow(2, 14))) && 
-                ((HLTriggers&((ULong64_t)pow(2, 14)))==((ULong64_t)pow(2, 14)))&&
+                ((Reco_QQ_mupl_trig[j]&((ULong64_t)pow(2, 10)))==((ULong64_t)pow(2, 10))) && 
+                ((HLTriggers&((ULong64_t)pow(2, 10)))==((ULong64_t)pow(2, 10)))&&  //Santona: again, only L1Mu3
                 recoQQpl4mom->Pt()>4
-              ) 
+              ) // Select tag muon (mupl) 
             {
               deno_p[k]->Fill(recoQQmi4mom->Pt());
-              deno_e[k]->Fill(recoQQmi4mom->Eta(),recoQQpl4mom->Pt()>10);
+              //deno_e[k]->Fill(recoQQmi4mom->Eta(),recoQQpl4mom->Pt()>10);  //Santona:What's hapenning here? Don't think this works
+	      if(recoQQmi4mom->Pt()>10){deno_e[k]->Fill(recoQQmi4mom->Eta());}  // Santona: only pT>10
+	      //deno_e[k]->Fill(recoQQmi4mom->Eta());
               if(
                   ((Reco_QQ_mumi_trig[j]&((ULong64_t)pow(2, k)))==((ULong64_t)pow(2, k))) && 
                   ((HLTriggers&((ULong64_t)pow(2, k)))==((ULong64_t)pow(2, k)))) {
@@ -579,13 +603,16 @@ void getEff(){
               }
             } 
             else if(
-                ((Reco_QQ_mumi_trig[j]&((ULong64_t)pow(2, 14)))==((ULong64_t)pow(2, 14))) && 
-                ((HLTriggers&((ULong64_t)pow(2, 14)))==((ULong64_t)pow(2, 14)))&&
+                ((Reco_QQ_mumi_trig[j]&((ULong64_t)pow(2, 10)))==((ULong64_t)pow(2, 10))) && 
+                ((HLTriggers&((ULong64_t)pow(2, 10)))==((ULong64_t)pow(2, 10)))&& //L1Mu3
                 recoQQmi4mom->Pt()>4
-              ) 
+              ) // Select tag muom (mumi)
             {
               deno_p[k]->Fill(recoQQpl4mom->Pt());
-              deno_e[k]->Fill(recoQQpl4mom->Eta(),recoQQpl4mom->Pt()>10);
+              //deno_e[k]->Fill(recoQQpl4mom->Eta(),recoQQpl4mom->Pt()>10);
+	      //Santona
+	      if(recoQQpl4mom->Pt()>10){deno_e[k]->Fill(recoQQpl4mom->Eta());}
+	      //deno_e[k]->Fill(recoQQpl4mom->Eta());  //Santona: currently no pT cuts
               if(
                   ((Reco_QQ_mupl_trig[j]&((ULong64_t)pow(2, k)))==((ULong64_t)pow(2, k))) && 
                   ((HLTriggers&((ULong64_t)pow(2, k)))==((ULong64_t)pow(2, k)))
@@ -600,6 +627,8 @@ void getEff(){
 
         }//for Fill
       }//for DoubleMu trigger
+
+      //Santona: NEED TO USE THIS PART FOR SINGLE MUON STUFF
       //for Fill->Recomu with SingleMu trigger matching
 //      for(int j=0; j<Reco_mu_size; j++){
 //        TLorentzVector *recomu4mom = (TLorentzVector*) Reco_mu_4mom->At(j);
