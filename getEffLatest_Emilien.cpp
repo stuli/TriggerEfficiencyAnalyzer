@@ -19,9 +19,8 @@
 #include "JpsiFunc.h"
 
 // Run first with usetnp=true (doubleMu triggers only) and then with usetnp=false (Single Mu triggers except track)
-// use tnp true and track true for mutrk triggers only. Usetnp false and isTrk false for SingleMu triggers except track triggers. Use tnp true and is trk false for DoubleMu triggers only.
-bool usetnp = true;
-bool isTrk = true;
+bool usetnp = false;
+bool isTrk = false;
 
 void getCorrectedEffErr(const int nbins, TH1D *hrec, TH1D *hgen, TH1D *heff) {
   for (int a=0; a<nbins; a++) {
@@ -56,7 +55,7 @@ bool AcceptanceCut (TLorentzVector* Muon)
 }; 
 
 //main
-void getEffLatest_Santona(){
+void getEffLatest_Emilien(){
 
 
   TChain *fcha = new TChain("hionia/myTree");
@@ -66,7 +65,7 @@ void getEffLatest_Santona(){
   //fcha->Add("/afs/cern.ch/user/t/twang/public/ForAndre/OniaForest.root");
 
   // For 2017 pp ref run, JPsi Gun MC
-  fcha->Add("./InputFiles/Pythia8_JPsiGun_pp_2017pp502_Onia_20171031_merge.root");
+   fcha->Add("./InputFiles/Pythia8_JPsiGun_pp_2017pp502_Onia_20171031_merge.root");
   // For 2017 pp ref run, Mu Gun MC
   //fcha->Add("./InputFiles/Pythia8_MuGun_pp_2017pp502_Onia_20171031_merge.root");
   // For 2017 pp ref run, Pr JPsi MC (larger)
@@ -82,8 +81,8 @@ void getEffLatest_Santona(){
   double etamax = 2.4;
   double massmin = 2;
   double massmax = 5;
-  int minpTtrigfordeno = 21; // L3Mu3
-  int L3SingleMuTrig = 21;
+  int minpTtrigfordeno = 23; // L3Mu3
+  int L3SingleMuTrig = 23;
 
   bool isZ = false;
   if(isZ==1){
@@ -92,20 +91,20 @@ void getEffLatest_Santona(){
    minpTtrigfordeno = 13;
   }
 
-  string date="110217";
+  string date="Emilien110217";
   //string dataset="Data";
-  string dataset="MC";
+  string dataset="MC_noTnP";
 
   //Santona // For 2017 pp ref run
   //previous smaller sample //string vername="PromptJPsiMC";
-  string vername="JPsiGun";
+   string vername="JPsiGun";
   //string vername="MuGun";
   //string vername="PrJPsi";
   //string vername="NonPrJPsi";
   //string vername="Zm10m10";
 
   //define Trigger
-  const int Ntrig = 33;  // was 27 // 18 for 2015
+  const int Ntrig = 35;  // was 27 // 18 for 2015
   string trigname[Ntrig]={ //was Ntrig+1
     // For 2017 (Latest) 33, 30 needed (was 28) total
     //Double
@@ -125,24 +124,26 @@ void getEffLatest_Santona(){
     "HLT_HIL1Mu7_v1",//12 //not needed
     "HLT_HIL1Mu12_v1",//13
     "HLT_HIL1Mu16_v1",//14
-    "HLT_HIL2Mu3_NHitQ10_v1",//15 // new N Hit requirement
-    "HLT_HIL2Mu5_NHitQ10_v1",//16 // new N hit requirement
-    "HLT_HIL2Mu7_v1",//17
-    "HLT_HIL2Mu12_v1",//18
-    "HLT_HIL2Mu15_v1",//19
-    "HLT_HIL2Mu20_v1",//20
-    "HLT_HIL3Mu3_v1",//21
-    "HLT_HIL3Mu5_v1",//22
-    "HLT_HIL3Mu7_v1",//23
-    "HLT_HIL3Mu12_v1",//24
-    "HLT_HIL3Mu15_v1",//25
-    "HLT_HIL3Mu20_v1",//26
-    "HLT_HIL3Mu3_NHitQ10_v1",//27 //new
-    "HLT_HIL3Mu5_NHitQ10_v1",//28 //new
-    "HLT_HIL3Mu3_Track1_Jpsi_v1",//29
-    "HLT_HIL3Mu5_Track1_Jpsi_v1",//30 //new
-    "HLT_HIL3Mu3_Track1_v1",//31 //new
-    "HLT_HIL3Mu5_Track1_v1" //32 //new
+    "HLT_HIL2Mu3_v1",//15 // new N Hit requirement
+    "HLT_HIL2Mu3_NHitQ10_v1",//16 // new N Hit requirement
+    "HLT_HIL2Mu5_v1",//17 // new N hit requirement
+    "HLT_HIL2Mu5_NHitQ10_v1",//18 // new N hit requirement
+    "HLT_HIL2Mu7_v1",//19
+    "HLT_HIL2Mu12_v1",//20
+    "HLT_HIL2Mu15_v1",//21
+    "HLT_HIL2Mu20_v1",//22
+    "HLT_HIL3Mu3_v1",//23
+    "HLT_HIL3Mu3_NHitQ10_v1",//24 //new
+    "HLT_HIL3Mu5_v1",//25
+    "HLT_HIL3Mu5_NHitQ10_v1",//26 //new
+    "HLT_HIL3Mu7_v1",//27
+    "HLT_HIL3Mu12_v1",//28
+    "HLT_HIL3Mu15_v1",//29
+    "HLT_HIL3Mu20_v1",//30
+    "HLT_HIL3Mu3_Track1_Jpsi_v1",//31
+    "HLT_HIL3Mu5_Track1_Jpsi_v1",//32 //new
+    "HLT_HIL3Mu3_Track1_v1",//33 //new
+    "HLT_HIL3Mu5_Track1_v1" //34 //new
   };
 
   //Set Branch
@@ -161,7 +162,7 @@ void getEffLatest_Santona(){
   ULong64_t       Reco_QQ_trig[1000];
   ULong64_t       Reco_QQ_mupl_trig[1000];
   ULong64_t       Reco_QQ_mumi_trig[1000];
-  Int_t           Reco_QQ_sign[1000];
+  Int_t       Reco_QQ_sign[1000];
   ULong64_t       HLTriggers;
   Bool_t          Reco_mu_isGoodMuon[1000];
   Int_t           Reco_mu_nPixWMea[1000];
@@ -323,77 +324,83 @@ void getEffLatest_Santona(){
 
         //for Fill->Reco_QQ_singleMuon with SingleMu track trigger Matching
         for(int k=0; k<Ntrig; k++){
-          if( //Cond&&//soft muon cut                
-              Reco_QQ_sign[j]==0&&//opposite sign  
-              recoQQ4mom->M()>massmin && recoQQ4mom->M()<massmax&&//mass window
-              AcceptanceCut(recoQQpl4mom)&&AcceptanceCut(recoQQmi4mom)&&//Acceptance cut
-	      (k>=29)  // only simgleMu track triggers
-            ) // Track trigger conditions not including soft muon cuts
-          {
-	    if(k==29||k==31){L3SingleMuTrig = 21;} // L3Mu3
-	    else if(k==30||k==32){L3SingleMuTrig = 22;} // L3Mu5
-            if(
-                ((Reco_QQ_mupl_trig[j]&((ULong64_t)pow(2, L3SingleMuTrig)))==((ULong64_t)pow(2, L3SingleMuTrig)))&& // Tag muon matched to L3 SingleMu3
-		Condpl
-                //recoQQpl4mom->Pt()>4
-              )//select tag (mupl)
-            {
-              // Inside probe (mumi)
-	      // Denominator: probe belongs to event which fired L3Mu3
-	      if(
-	         ((HLTriggers&((ULong64_t)pow(2, L3SingleMuTrig)))==((ULong64_t)pow(2, L3SingleMuTrig)))&& // Event fired L3 SingleMu3
-		 Condmi
-	        )
-	      {
-	         //Fill deno
-                 deno_p[k]->Fill(recoQQmi4mom->Pt());
-                 if((k==29||k==31)&&recoQQmi4mom->Pt()>3) deno_e[k]->Fill(recoQQmi4mom->Eta());
-                 if((k==30||k==32)&&recoQQmi4mom->Pt()>5) deno_e[k]->Fill(recoQQmi4mom->Eta()); // for 5
-	      } // if deno
-
-	      if(
-                  ((HLTriggers&((ULong64_t)pow(2, k)))==((ULong64_t)pow(2, k)))&& // Event fired track trigger
-		  Condmi
-		)
-              {
-		 //Fill nume
-                 nume_p[k]->Fill(recoQQmi4mom->Pt());
-                 if((k==29||k==31)&&recoQQmi4mom->Pt()>3) nume_e[k]->Fill(recoQQmi4mom->Eta());
-                 if((k==30||k==32)&&recoQQmi4mom->Pt()>5) nume_e[k]->Fill(recoQQmi4mom->Eta());
-	      } //if nume
-	    } // for tag mupl
-
-            if(
-                ((Reco_QQ_mumi_trig[j]&((ULong64_t)pow(2, L3SingleMuTrig)))==((ULong64_t)pow(2, L3SingleMuTrig)))&& // Tag muon matched to L3 SingleMu3
-		Condmi
-                //recoQQmi4mom->Pt()>4
-              )//select tag (mumi)
-            {
-              // Inside probe (mupl)
-              // Denominator: probe belongs to event which fired L3Mu3
+           // cout << 
+           // (Reco_QQ_sign[j]==0) << " " <<//opposite sign  
+           // (recoQQ4mom->M()>massmin && recoQQ4mom->M()<massmax) << " " <<//mass window
+           // (AcceptanceCut(recoQQpl4mom)&&AcceptanceCut(recoQQmi4mom)) << " "<<//Acceptance cut
+           // (k>=31) << endl; // only simgleMu track triggers
+           if( //Cond&&//soft muon cut                
+                 Reco_QQ_sign[j]==0&&//opposite sign  
+                 recoQQ4mom->M()>massmin && recoQQ4mom->M()<massmax&&//mass window
+                 AcceptanceCut(recoQQpl4mom)&&AcceptanceCut(recoQQmi4mom)&&//Acceptance cut
+                 (k>=31) // only simgleMu track triggers or Mu3 or Mu5
+             ) // Track trigger conditions not including soft muon cuts
+           {
+              // cout << __LINE__ << endl;
+              if(k==31||k==33){L3SingleMuTrig = 23;} // L3Mu3
+              else if(k==32||k==34){L3SingleMuTrig = 25;} // L3Mu5
               if(
-                 ((HLTriggers&((ULong64_t)pow(2, L3SingleMuTrig)))==((ULong64_t)pow(2, L3SingleMuTrig)))&& // Event fired L3 SingleMu3
-		 Condpl
-                )
-              {
-                 //Fill deno
-                 deno_p[k]->Fill(recoQQpl4mom->Pt());
-                 if((k==29||k==31)&&recoQQpl4mom->Pt()>3) deno_e[k]->Fill(recoQQpl4mom->Eta());
-                 if((k==30||k==32)&&recoQQpl4mom->Pt()>5) deno_e[k]->Fill(recoQQpl4mom->Eta()); // for 5
-	      } //if deno
+                    ((Reco_QQ_mupl_trig[j]&((ULong64_t)pow(2, L3SingleMuTrig)))==((ULong64_t)pow(2, L3SingleMuTrig)))&& // Tag muon matched to L3 SingleMu3
+                    Condpl
+                    //recoQQpl4mom->Pt()>4
+                )//select tag (mupl)
+                {
+                   // Inside probe (mumi)
+                   // Denominator: probe belongs to event which fired L3Mu3
+                   if(
+                         ((HLTriggers&((ULong64_t)pow(2, L3SingleMuTrig)))==((ULong64_t)pow(2, L3SingleMuTrig)))&& // Event fired L3 SingleMu3
+                         Condmi
+                     )
+                   {
+                      //Fill deno
+                      deno_p[k]->Fill(recoQQmi4mom->Pt());
+                      if((k==31||k==33)&&recoQQmi4mom->Pt()>1) deno_e[k]->Fill(recoQQmi4mom->Eta());
+                      if((k==32||k==34)&&recoQQmi4mom->Pt()>1) deno_e[k]->Fill(recoQQmi4mom->Eta()); // for 5
+                   } // if deno
+
+                   if(
+                         ((HLTriggers&((ULong64_t)pow(2, k)))==((ULong64_t)pow(2, k)))&& // Event fired track trigger
+                         Condmi
+                     )
+                   {
+                      //Fill nume
+                      nume_p[k]->Fill(recoQQmi4mom->Pt());
+                      if((k==31||k==33)&&recoQQmi4mom->Pt()>1) nume_e[k]->Fill(recoQQmi4mom->Eta());
+                      if((k==32||k==34)&&recoQQmi4mom->Pt()>1) nume_e[k]->Fill(recoQQmi4mom->Eta());
+                   } //if nume
+                } // for tag mupl
 
               if(
-                  ((HLTriggers&((ULong64_t)pow(2, k)))==((ULong64_t)pow(2, k)))&&
-		  Condpl
-		)
-              {  
-		 //Fill nume
-                 nume_p[k]->Fill(recoQQpl4mom->Pt());
-                 if((k==29||k==31)&&recoQQpl4mom->Pt()>3) nume_e[k]->Fill(recoQQpl4mom->Eta());
-                 if((k==30||k==32)&&recoQQpl4mom->Pt()>5) nume_e[k]->Fill(recoQQpl4mom->Eta());
-              } //if nume
-            } //for tag mumi
-          } // if Track trigger conditions
+                    ((Reco_QQ_mumi_trig[j]&((ULong64_t)pow(2, L3SingleMuTrig)))==((ULong64_t)pow(2, L3SingleMuTrig)))&& // Tag muon matched to L3 SingleMu3
+                    Condmi
+                    //recoQQmi4mom->Pt()>4
+                )//select tag (mumi)
+                {
+                   // Inside probe (mupl)
+                   // Denominator: probe belongs to event which fired L3Mu3
+                   if(
+                         ((HLTriggers&((ULong64_t)pow(2, L3SingleMuTrig)))==((ULong64_t)pow(2, L3SingleMuTrig)))&& // Event fired L3 SingleMu3
+                         Condpl
+                     )
+                   {
+                      //Fill deno
+                      deno_p[k]->Fill(recoQQpl4mom->Pt());
+                      if((k==31||k==33)&&recoQQpl4mom->Pt()>1) deno_e[k]->Fill(recoQQpl4mom->Eta());
+                      if((k==32||k==34)&&recoQQpl4mom->Pt()>1) deno_e[k]->Fill(recoQQpl4mom->Eta()); // for 5
+                   } //if deno
+
+                   if(
+                         ((HLTriggers&((ULong64_t)pow(2, k)))==((ULong64_t)pow(2, k)))&&
+                         Condpl
+                     )
+                   {  
+                      //Fill nume
+                      nume_p[k]->Fill(recoQQpl4mom->Pt());
+                      if((k==31||k==33)&&recoQQpl4mom->Pt()>1) nume_e[k]->Fill(recoQQpl4mom->Eta());
+                      if((k==32||k==34)&&recoQQpl4mom->Pt()>1) nume_e[k]->Fill(recoQQpl4mom->Eta());
+                   } //if nume
+                } //for tag mumi
+           } // if Track trigger conditions
         } // For Ntrig - looping over triggers	
       } // For Filling with Reco_QQ_SingleMuTrkTrigger
    } // Track triggers (isTrk true)
@@ -421,7 +428,7 @@ void getEffLatest_Santona(){
         //for Fill->RecoQQ with DoubleMuon trigger Matching, except DoubleMu10
         for(int k=0; k<Ntrig; k++){
           if( Cond&&//soft muon cut                
-              Reco_QQ_sign[k]==0&&//opposite sign  // need to change index form k to j.
+              Reco_QQ_sign[k]==0&&//opposite sign  
               recoQQ4mom->M()>massmin && recoQQ4mom->M()<massmax&&//mass window
               AcceptanceCut(recoQQpl4mom)&&AcceptanceCut(recoQQmi4mom)&&//Acceptance cut
               k!=5&&k!=7&&k!=9//except DoubleMu10 trig
@@ -1031,32 +1038,32 @@ void getEffLatest_Santona(){
             );
       }
 
-      if(isTrk==true){
-      //for L3 singleMu track triggers 3,5 (check)
-        if(i==29||i==30||i==31||i==32){
-          c8->cd(1);
-          if(i==29) eff_p[i]->Draw("alp");
-          eff_p[i]->Draw("lp");
-          //lptx3->Draw("sames"); lptx5->Draw("sames");
-          lpty[i]->Draw("sames");
-          leg9[29] = new TLegend(0.175,0.850,0.70,0.875);
-          leg9[30] = new TLegend(0.175,0.825,0.70,0.850);
-          leg9[31] = new TLegend(0.175,0.800,0.70,0.825);
-          leg9[32] = new TLegend(0.175,0.775,0.70,0.800);
-          leg9[i]->AddEntry(eff_p[i],Form("%s",trigname[i].c_str()),"lp");
-          SetLegendStyle(leg9[i]);
-          leg9[i]->SetFillStyle(0);
-          leg9[i]->Draw("sames");
-          c8->cd(2);
-          if(i==29) eff_e[i]->Draw("ap");
-          eff_e[i]->Draw("p");
-          letay[i]->Draw("sames");
-          leg9[i]->Draw("sames");
-          c8->SaveAs(
+        if(isTrk==true){
+        //for L3 singleMu track triggers 3,5 (check)
+          if(i==31||i==32||i==33||i==34){ 
+            c8->cd(1);
+            if(i==31) eff_p[i]->Draw("alp");
+            eff_p[i]->Draw("lp");
+            // lptx3->Draw("sames"); lptx5->Draw("sames");
+            lpty[i]->Draw("sames");
+            leg9[31] = new TLegend(0.175,0.850,0.70,0.875);
+            leg9[32] = new TLegend(0.175,0.825,0.70,0.850);
+            leg9[33] = new TLegend(0.175,0.800,0.70,0.825);
+            leg9[34] = new TLegend(0.175,0.775,0.70,0.800);
+            leg9[i]->AddEntry(eff_p[i],Form("%s",trigname[i].c_str()),"lp");
+            SetLegendStyle(leg9[i]);
+            leg9[i]->SetFillStyle(0);
+            leg9[i]->Draw("sames");
+            c8->cd(2);
+            if(i==31) eff_e[i]->Draw("ap");
+            eff_e[i]->Draw("p");
+            letay[i]->Draw("sames");
+            leg9[i]->Draw("sames");
+            c8->SaveAs(
                 Form("figs/%s/%s/%s/efficiency_SingleL3MuTrack.png",date.c_str(),dataset.c_str(),vername.c_str())
-              );
-        }
-      } //Track triggers plot
+                );
+          }
+        } //Track triggers plot
     }//use TnP, only for DoubleMu triggers - For plotting
 
     // Not using TnP - for SingleMu trigs
@@ -1072,8 +1079,8 @@ void getEffLatest_Santona(){
             Form("figs/%s/%s/%s/h_pt_efficiency_%s.root",date.c_str(),dataset.c_str(),vername.c_str(),trigname[i].c_str())
             );
         //Set line for pt TurnOn
-        if(i==15||i==21||i==27||i==29||i==31) {lptx3->Draw("sames");} // track triggers 29 and 31
-        if(i==16||i==22||i==28||i==30||i==32) {lptx5->Draw("sames");}  // Track triggers 30 and 32
+        if(i==15||i==21||i==27||i==31||i==33) {lptx3->Draw("sames");} // track triggers 29 and 31
+        if(i==16||i==22||i==28||i==32||i==34) {lptx5->Draw("sames");}  // Track triggers 30 and 32
         if(i==17||i==23) {lptx7->Draw("sames");}
         if(i==13 || i==18 || i==24) {lptx12->Draw("sames");}
         if(i==19 || i==25) {lptx15->Draw("sames");}
@@ -1198,7 +1205,6 @@ void getEffLatest_Santona(){
               Form("figs/%s/%s/%s/efficiency_SingleL1L2L3Mu12TurnOn.png",date.c_str(),dataset.c_str(),vername.c_str())
               );
         }
-
       } // If SingleMu trig - Plotting
     }//it does not use TnP - Plotting
   }//for Ntrig - Plotting
