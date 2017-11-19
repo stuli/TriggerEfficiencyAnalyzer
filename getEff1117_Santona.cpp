@@ -20,7 +20,7 @@
 
 // use tnp true and track true for mutrk triggers only. Usetnp false and isTrk false for SingleMu triggers except track triggers. Use tnp true and is trk false for DoubleMu triggers only.
 bool usetnp = true;
-bool isTrk = true;
+bool isTrk = false;
 
 void getCorrectedEffErr(const int nbins, TH1D *hrec, TH1D *hgen, TH1D *heff) {
   for (int a=0; a<nbins; a++) {
@@ -77,7 +77,8 @@ void getEff1117_Santona(){
 
   // 11/17 onia trees
   fcha->Add("/eos/cms/store/group/phys_heavyions/jaebeom/OniaTree_PPref_SingleMuTnP/SingleMuonTnP/OniaTree_PPref_SingleMuTnP/171116_031052/0000/OniaForest_321.root");
-
+  fcha->Add("/eos/cms/store/group/phys_heavyions/jaebeom/OniaTree_PPref_SingleMuTnP/SingleMuonTnP/OniaTree_PPref_SingleMuTnP/171116_031052/0000/OniaForest_322.root");
+  fcha->Add("/eos/cms/store/group/phys_heavyions/jaebeom/OniaTree_PPref_SingleMuTnP/SingleMuonTnP/OniaTree_PPref_SingleMuTnP/171116_031052/0000/OniaForest_323.root");
 
 
 
@@ -98,7 +99,7 @@ void getEff1117_Santona(){
    minpTtrigfordeno = 13;
   }
 
-  string date="111717";
+  string date="111817";
   string dataset="Data";
   //string dataset="MC";
 
@@ -110,7 +111,7 @@ void getEff1117_Santona(){
   //string vername="NonPrJPsi";
   //string vername="Zm10m10";
 
-  string vername="OniaForest_ppRefRunALL";
+  string vername="OniaForest_ppRefRunTest";
 
   //define Trigger
   const int Ntrig = 30;  // was 27 // 18 for 2015
@@ -148,7 +149,7 @@ void getEff1117_Santona(){
   "HLT_HIL3Mu5_Track1_Jpsi_v1", //27
   "HLT_HIL3Mu3_Track1_v1", //28
   "HLT_HIL3Mu5_Track1_v1" // 29
-  }
+  };
 
 /*    // For 2017 (Latest) 33, 30 needed (was 28) total
     //Double
@@ -340,7 +341,7 @@ void getEff1117_Santona(){
     deno_p[i] = new TH1D(Form("deno_p%d",i),";p_{T}(GeV/c);Events",Nptarr-1,ptarr);
     deno_e[i] = new TH1D(Form("deno_e%d",i),";#eta;Events",Nraparr-1,raparr);
     deno_phi[i] = new TH1D(Form("deno_phi%d",i),";#phi;Events",Nphiarr-1,phiarr);
-  };
+  }
 
   for(int i=0; i<nevent; i++){ // i<nevent
    fcha->GetEvent(i);

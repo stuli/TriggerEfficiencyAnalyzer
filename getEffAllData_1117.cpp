@@ -2011,7 +2011,7 @@ fcha->Add("/eos/cms/store/group/phys_heavyions/jaebeom/OniaTree_PPref_SingleMuTn
    minpTtrigfordeno = 13;
   }
 
-  string date="111717";
+  string date="111817";
   string dataset="Data";
   //string dataset="MC";
 
@@ -2061,7 +2061,7 @@ fcha->Add("/eos/cms/store/group/phys_heavyions/jaebeom/OniaTree_PPref_SingleMuTn
   "HLT_HIL3Mu5_Track1_Jpsi_v1", //27
   "HLT_HIL3Mu3_Track1_v1", //28
   "HLT_HIL3Mu5_Track1_v1" // 29
-  }
+  };
 
 /*    // For 2017 (Latest) 33, 30 needed (was 28) total
     //Double
@@ -2255,7 +2255,7 @@ fcha->Add("/eos/cms/store/group/phys_heavyions/jaebeom/OniaTree_PPref_SingleMuTn
     deno_phi[i] = new TH1D(Form("deno_phi%d",i),";#phi;Events",Nphiarr-1,phiarr);
   };
 
-  for(int i=0; i<nevent; i++){ // i<nevent
+  for(int i=0; i<200000; i++){ // i<nevent
    fcha->GetEvent(i);
    if(i%500000==0){cout<<">>>>> EVENT "<<i<<" / "<<fcha->GetEntries()<<" ("<<(int)(100.*i/fcha->GetEntries())<<"%)"<<endl;}
 
